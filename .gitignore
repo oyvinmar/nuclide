@@ -1,6 +1,7 @@
 .DS_Store
 npm-debug.log*
 *.pyc
+.vscode
 /node_modules
 /modules/**/node_modules
 /coverage
