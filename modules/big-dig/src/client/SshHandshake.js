@@ -452,20 +452,40 @@ export class SshHandshake {
 
     // Using a private key, but no password was provided:
     if (error.needsPrivateKeyPassword) {
-      const prompt =
-        'Encrypted private key detected, but no passphrase given.\n' +
-        `Enter passphrase for ${config.pathToPrivateKey}: `;
-      const password = await this._userPromptSingle({
-        kind: 'private-key',
-        prompt,
-        echo: false,
-        retry: false,
-      });
-      authError = await this._connectOrNeedsAuth({
-        ...connectConfig,
-        password,
-      });
-      ++attempts;
+      while (authError != null && attempts < PASSWORD_RETRIES) {
+        const prompt =
+          'Encrypted private key detected, but no passphrase given.\n' +
+          `Enter passphrase for ${config.pathToPrivateKey}: `;
+        const retry = attempts > 0;
+        ++attempts;
+
+        // eslint-disable-next-line no-await-in-loop
+        const passphrase = await this._userPromptSingle({
+          kind: 'private-key',
+          prompt,
+          echo: false,
+          retry,
+        });
+        // eslint-disable-next-line no-await-in-loop
+        authError = await this._connectOrNeedsAuth({
+          ...connectConfig,
+          passphrase,
+        });
+      }
+      // const prompt =
+      //   'Encrypted private key detected, but no passphrase given.\n' +
+      //   `Enter passphrase for ${config.pathToPrivateKey}: `;
+      // const password = await this._userPromptSingle({
+      //   kind: 'private-key',
+      //   prompt,
+      //   echo: false,
+      //   retry: false,
+      // });
+      // authError = await this._connectOrNeedsAuth({
+      //   ...connectConfig,
+      //   password,
+      // });
+      // ++attempts;
     }
 
     // Keep asking the user for the correct password until they run out of attempts or the
