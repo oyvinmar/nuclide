@@ -65,6 +65,13 @@ def parse_arguments(argv):
         help="Proceed even if the repository has changes or unknown files.",
     )
     parser.add_option(
+        "--cwd",
+        action="store_true",
+        dest="use_cwd",
+        default=False,
+        help="Transpile and build in cwd",
+    )
+    parser.add_option(
         "-o",
         "--out",
         type="str",
@@ -120,6 +127,8 @@ def vsce(target, output):
     generated *.vsix file.
     """
     print("Running vsce...")
+    print(" at {}...".format(target))
+    print(" output {}...".format(output))
     subprocess.check_output(["vsce", "package", "-o", output], cwd=target)
 
 
@@ -152,8 +161,18 @@ class NuclideRoot:
         install_path = root / "third-party" / "yarn" / "yarn"
         return str(install_path) if install_path.exists() else "yarn"
 
-    def transpile(self):
+    def transpile(self, options):
         """Transpiles nuclide and all modules"""
+        if (options.useCwd):
+            self._nuclideTranspilePath = self.nuclidePath
+            print("Transpiling modules...")
+            subprocess.check_call(
+                ["node", RELEASE_TRANSPILE, "--overwrite", "modules"],
+                cwd=self._nuclideTranspilePath,
+                env=dict(os.environ, NUCLIDE_TRANSPILE_ENV="production-modules"),
+            )
+            return
+
         self._nuclideTranspilePath = makeTempDir("nuclide-root.")
         print(
             "Creating copy of Nuclide root at {}...".format(self._nuclideTranspilePath)
@@ -172,12 +191,15 @@ class NuclideRoot:
             env=dict(os.environ, NUCLIDE_TRANSPILE_ENV="production-modules"),
         )
 
-    def installNodeModules(self, target):
+    def installNodeModules(self, target, options):
         """
         Installs modules/ to the target node_modules/ directory.
         """
         print("Installing node_modules into {}...".format(target))
         installer = self._yarnCommand()
+        if (options.useCwd):
+            shutil.rmtree(str(target))
+            print("Deleting {}...".format(target))
         subprocess.check_call(
             [installer, "--offline", "--production", "--modules-folder", str(target)],
             cwd=self._nuclideTranspilePath,
@@ -223,7 +245,7 @@ def buildVsix(nuclide, options):
     Creates a vsix package of the module in `packagePath` at `options.outputPath`.
     """
     path = nuclide.resolvePath(options.packagePath)
-    nuclide.installNodeModules(path / "node_modules")
+    nuclide.installNodeModules(path / "node_modules", options)
 
     # vsce doesn't like symlinks in node_modules.
     # Use 'cp -LR' to reify the symlinks.
@@ -269,12 +291,15 @@ def run(options):
 
     nuclide = NuclideRoot(options.nuclidePath)
     nuclide.setupNodeModules()
-    nuclide.transpile()
+    nuclide.transpile(options)
     version = nuclide.bumpVersion(options)
 
     buildVsix(nuclide, options)
     outputPath = options.outputPath
 
+    if (options.useCwd):
+        subprocess.check_output(["git", "reset", "--hard"])
+        nuclide.setupNodeModules()
     # Install the server into the package
     serverZip = buildServer(nuclide, version, options)
     with zipfile.ZipFile(str(outputPath), mode="a") as pkg:
@@ -318,6 +343,7 @@ def main(argv):
 
         cmdOpts, otherArgs = parse_arguments(argv)
         options.ignoreDirty = cmdOpts.ignore_dirty
+        options.useCwd = cmdOpts.use_cwd
         options.outputPath = Path(cmdOpts.out).resolve()
 
         run(options)
