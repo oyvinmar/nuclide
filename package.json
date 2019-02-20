@@ -219,5 +219,8 @@
     "nuclide-format-js",
     "set-syntax",
     "sort-lines"
-  ]
+  ],
+  "toolchain": {
+    "node": "8.15.0"
+  }
 }

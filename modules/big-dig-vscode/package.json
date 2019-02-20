@@ -248,5 +248,8 @@
     "jest": "../../jest/fb-jest big-dig-vscode",
     "try-vsix": "scripts/try-vsix.py",
     "vsix": "scripts/build-vsix.py"
+  },
+  "toolchain": {
+    "node": "8.15.0"
   }
 }
