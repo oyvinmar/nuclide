@@ -36,7 +36,6 @@ import {
 import {DeviceAndPackage} from './DeviceAndPackage';
 import {DeviceAndProcess} from './DeviceAndProcess';
 import SelectableFilterableProcessTable from './SelectableFilterableProcessTable';
-import {SourceSelector} from './SourceSelector';
 
 type StringPair = [string, string];
 
@@ -451,30 +450,7 @@ export default class AutoGenLaunchAttachUiComponent extends React.Component<
         />
       );
     } else if (type === 'selectSources') {
-      return (
-        <div>
-          {nameLabel}
-          <SourceSelector
-            deserialize={() => {
-              let selectSourcesValuesArray: Array<StringPair> = [];
-              deserializeDebuggerConfig(
-                ...this._getSerializationArgs(this.props),
-                (transientSettings, savedSettings) => {
-                  selectSourcesValuesArray =
-                    (savedSettings.selectSourcesValues: Array<StringPair>) ||
-                    [];
-                },
-              );
-              const selectSourcesValues = new Map(selectSourcesValuesArray);
-              return selectSourcesValues.get(name) || null;
-            }}
-            onSelect={selectedSource => {
-              this.state.selectSourcesValues.set(name, selectedSource);
-              this.props.configIsValidChanged(this._debugButtonShouldEnable());
-            }}
-          />
-        </div>
-      );
+      return <div>{nameLabel}</div>;
     }
     return (
       <div>

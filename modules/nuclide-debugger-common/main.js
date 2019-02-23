@@ -15,7 +15,6 @@ export type {
   ControlButtonSpecification,
   DebuggerConfigAction,
   DebuggerConfigurationProvider,
-  DebuggerSourcePathsService,
   Device,
   DevicePanelServiceApi,
   IProcessConfig,

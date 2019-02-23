@@ -10,7 +10,6 @@
  * @format
  */
 
-import type {SuggestedProjectPath} from 'atom-ide-debugger-java/types';
 import type {TaskEvent, ProcessMessage} from 'nuclide-commons/process';
 import type {Expected} from 'nuclide-commons/expected';
 import type DebuggerLaunchAttachProvider from './DebuggerLaunchAttachProvider';
@@ -345,15 +344,3 @@ export type AppInfoRow = {
   value: string,
   isError?: boolean,
 };
-
-export interface DebuggerSourcePathsService {
-  addKnownJavaSubdirectoryPaths(
-    remote: boolean,
-    translatedPath: string,
-    searchPaths: Array<string>,
-  ): void;
-
-  observeSuggestedAndroidProjectPaths(
-    callback: (Array<SuggestedProjectPath>) => void,
-  ): IDisposable;
-}

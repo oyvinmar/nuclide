@@ -45,10 +45,6 @@ modules_path = os.path.realpath(
     os.path.join(os.path.dirname(__file__), "..", "modules")
 )
 modules_package_configs = load_package_configs(modules_path)
-atom_ide_ui_packages_path = os.path.realpath(
-    os.path.join(os.path.dirname(__file__), "..", "modules", "atom-ide-ui", "pkg")
-)
-atom_ide_ui_package_configs = load_package_configs(atom_ide_ui_packages_path)
 
 feature_group_defs = load_feature_groups()
 merged_feature_groups = merge_feature_groups(feature_group_defs.values())

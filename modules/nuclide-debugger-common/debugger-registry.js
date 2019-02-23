@@ -37,60 +37,6 @@ function resolvePackagePath(packageName: string): string {
 
 const _adapters: Map<VsAdapterType, AdapterInfo> = new Map([
   [
-    'node',
-    {
-      executable: {
-        command: 'node',
-        args: [
-          nuclideUri.join(
-            resolvePackagePath('atom-ide-debugger-node'),
-            'VendorLib/vscode-node-debug2/out/src/nodeDebug.js',
-          ),
-        ],
-      },
-      root: nuclideUri.join(
-        resolvePackagePath('atom-ide-debugger-node'),
-        'VendorLib/vscode-node-debug2',
-      ),
-    },
-  ],
-  [
-    'python',
-    {
-      executable: {
-        command: 'node',
-        args: [
-          nuclideUri.join(
-            resolvePackagePath('atom-ide-debugger-python'),
-            'VendorLib/vs-py-debugger/out/client/debugger/Main.js',
-          ),
-        ],
-      },
-      root: nuclideUri.join(
-        resolvePackagePath('atom-ide-debugger-python'),
-        'VendorLib/vs-py-debugger',
-      ),
-    },
-  ],
-  [
-    'react-native',
-    {
-      executable: {
-        command: 'node',
-        args: [
-          nuclideUri.join(
-            resolvePackagePath('atom-ide-debugger-react-native'),
-            'VendorLib/vscode-react-native/out/debugger/reactNativeDebugEntryPoint.js',
-          ),
-        ],
-      },
-      root: nuclideUri.join(
-        resolvePackagePath('atom-ide-debugger-react-native'),
-        'VendorLib/vscode-react-native',
-      ),
-    },
-  ],
-  [
     'prepack',
     {
       executable: {
@@ -109,36 +55,6 @@ const _adapters: Map<VsAdapterType, AdapterInfo> = new Map([
     },
   ],
   [
-    'ocaml',
-    {
-      executable: {
-        command: 'node',
-        args: [
-          nuclideUri.join(
-            resolvePackagePath('atom-ide-debugger-ocaml'),
-            'lib/vscode-debugger-entry.js',
-          ),
-        ],
-      },
-      root: resolvePackagePath('atom-ide-debugger-ocaml'),
-    },
-  ],
-  [
-    'native_gdb',
-    {
-      executable: {
-        command: 'node',
-        args: [
-          nuclideUri.join(
-            resolvePackagePath('atom-ide-debugger-native-gdb'),
-            'lib/RunTranspiledServer.js',
-          ),
-        ],
-      },
-      root: resolvePackagePath('atom-ide-debugger-native-gdb'),
-    },
-  ],
-  [
     'native_lldb',
     {
       executable: {
@@ -146,26 +62,6 @@ const _adapters: Map<VsAdapterType, AdapterInfo> = new Map([
         args: [],
       },
       root: nuclideUri.join(__dirname, 'fb-native-debugger-lldb-vsp'),
-    },
-  ],
-  [
-    'java',
-    {
-      executable: {
-        command: 'java',
-        args: [],
-      },
-      root: resolvePackagePath('atom-ide-debugger-java'),
-    },
-  ],
-  [
-    'java_android',
-    {
-      executable: {
-        command: 'java',
-        args: [],
-      },
-      root: resolvePackagePath('atom-ide-debugger-java-android'),
     },
   ],
   [
