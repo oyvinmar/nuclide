@@ -19,7 +19,6 @@ module.exports = {
   rootDir: '../..',
   filter: '<rootDir>/xplat/js/jest/filter.js',
   projects: [
-    '<rootDir>/xplat/nuclide/jest/jest.config.atom.js',
     '<rootDir>/xplat/nuclide/jest/jest.config.node.js',
   ],
   testFailureExitCode: 0,

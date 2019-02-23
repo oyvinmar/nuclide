@@ -12,11 +12,8 @@
 
 export type {
   AtomNotificationType,
-  ControlButtonSpecification,
   DebuggerConfigAction,
   DebuggerConfigurationProvider,
-  Device,
-  DevicePanelServiceApi,
   IProcessConfig,
   IVspInstance,
   MessageProcessor,
@@ -24,14 +21,6 @@ export type {
   VSAdapterExecutableInfo,
   VsAdapterType,
 } from './types';
-
-export {
-  getVSCodeDebuggerAdapterServiceByNuclideUri,
-} from './debug-adapter-service';
-
-export {
-  default as DebuggerLaunchAttachProvider,
-} from './DebuggerLaunchAttachProvider';
 
 export {default as VsDebugSession} from './VsDebugSession';
 

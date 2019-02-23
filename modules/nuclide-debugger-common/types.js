@@ -15,7 +15,6 @@ import type {Expected} from 'nuclide-commons/expected';
 import type DebuggerLaunchAttachProvider from './DebuggerLaunchAttachProvider';
 import type {Observable, ConnectableObservable} from 'rxjs';
 import type {NuclideUri} from 'nuclide-commons/nuclideUri';
-import type {IconName} from 'nuclide-commons-ui/Icon';
 import * as DebugProtocol from 'vscode-debugprotocol';
 import * as React from 'react';
 
@@ -58,11 +57,6 @@ export type NuclideDebuggerProvider = {
   ): ?DebuggerLaunchAttachProvider,
 };
 
-export type ControlButtonSpecification = {
-  icon: IconName,
-  title?: string,
-  onClick: () => mixed,
-};
 
 export type IProcessConfig = {|
   +targetUri: NuclideUri,
@@ -73,7 +67,6 @@ export type IProcessConfig = {|
   +clientPreprocessor?: ?MessageProcessor,
   +adapterPreprocessor?: ?MessageProcessor,
   +processName?: string,
-  +customControlButtons?: Array<ControlButtonSpecification>,
   +threadsComponentTitle?: string,
   +showThreads?: boolean,
   +servicedFileExtensions?: Array<string>,
