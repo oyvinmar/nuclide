@@ -250,6 +250,7 @@
     "vsix": "scripts/build-vsix.py"
   },
   "toolchain": {
-    "node": "8.15.0"
+    "node": "8.15.0",
+    "yarn": "1.13.0"
   }
 }
