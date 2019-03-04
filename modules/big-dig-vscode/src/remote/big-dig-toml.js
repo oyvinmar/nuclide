@@ -65,7 +65,7 @@ async function createServicesForConnection(
     }),
   );
 
-  return new vscode.Disposable.from(...cleanups.filter(Boolean));
+  return vscode.Disposable.from(...cleanups.filter(Boolean));
 }
 
 async function createServicesForFolder(
